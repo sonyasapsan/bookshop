@@ -6,11 +6,11 @@ import com.example.bookshop.repository.BookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final EntityManagerFactory entityManagerFactory;
@@ -35,7 +35,9 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public List<Book> findAll() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-          return entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+          return entityManager.createQuery("FROM Book", Book.class).getResultList();
+        } catch (RuntimeException e) {
+            throw new DataProcessingException("Can't get all books, cause: " + e);
         }
     }
 }
