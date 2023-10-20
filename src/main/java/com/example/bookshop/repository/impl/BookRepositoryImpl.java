@@ -1,15 +1,12 @@
 package com.example.bookshop.repository.impl;
 
+import com.example.bookshop.exception.DataProcessingException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -17,7 +14,6 @@ import java.util.List;
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final EntityManagerFactory entityManagerFactory;
-
 
     @Override
     public Book save(Book book) {
@@ -32,7 +28,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (entityTransaction != null && entityTransaction.isActive()) {
                 entityTransaction.rollback();
             }
-            throw e;
+            throw new DataProcessingException("Can't save book to DB, cause: " + e);
         }
     }
 
