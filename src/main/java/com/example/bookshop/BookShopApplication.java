@@ -22,19 +22,7 @@ public class BookShopApplication {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-            Book book = new Book();
-            book.setTitle("Book 1");
-            book.setAuthor("Sonia");
-            book.setIsbn("isbn 1");
-            book.setPrice(new BigDecimal(100));
-            Book book2 = new Book();
-            book2.setTitle("Book 2");
-            book2.setAuthor("Diana");
-            book2.setIsbn("isbn 2");
-            book2.setPrice(new BigDecimal(80));
-            bookService.save(book);
-            bookService.save(book2);
-            System.out.println(bookService.findAll());
+
         };
     }
 }

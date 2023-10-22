@@ -1,6 +1,8 @@
 package com.example.bookshop.repository.impl;
 
+import com.example.bookshop.dto.BookDto;
 import com.example.bookshop.exception.DataProcessingException;
+import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import jakarta.persistence.EntityManager;
@@ -9,6 +11,7 @@ import jakarta.persistence.EntityTransaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -33,11 +36,34 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
           return entityManager.createQuery("FROM Book", Book.class).getResultList();
         } catch (RuntimeException e) {
             throw new DataProcessingException("Can't get all books, cause: " + e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()){
+            Book book = entityManager.find(Book.class, id);
+            return Optional.ofNullable(book);
+        } catch (RuntimeException e) {
+            throw new DataProcessingException("Can't get book by id " + id + ", cause: " + e);
+        }
+    }
+
+    @Override
+    public List<Book> findAllByAuthor(String author) {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            return entityManager
+                    .createQuery("SELECT b FROM Book b WHERE lower(b.author) LIKE :author", Book.class)
+                    .setParameter("author", "%" + author.toLowerCase() + "%")
+                    .getResultList();
+        } catch (RuntimeException e) {
+            throw new DataProcessingException("Can't get all books where author is "
+                    + author + ", cause: " + e);
         }
     }
 }
