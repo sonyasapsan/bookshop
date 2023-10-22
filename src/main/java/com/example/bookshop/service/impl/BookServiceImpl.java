@@ -3,15 +3,14 @@ package com.example.bookshop.service.impl;
 import com.example.bookshop.dto.BookDto;
 import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
+import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import com.example.bookshop.service.BookService;
-import com.example.bookshop.mapper.BookMapper;
-import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -52,7 +51,8 @@ public class BookServiceImpl implements BookService {
     public BookDto findById(Long id) {
         return bookMapper.toDto(bookRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find book with this id: " + id)));
+                .orElseThrow(() -> new EntityNotFoundException("Can't find book"
+                        + " with this id: " + id)));
     }
 
     private String generateIsbn() {

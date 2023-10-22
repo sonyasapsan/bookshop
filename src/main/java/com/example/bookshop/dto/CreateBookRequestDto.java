@@ -1,9 +1,7 @@
 package com.example.bookshop.dto;
 
-import jakarta.persistence.Column;
-import lombok.Data;
-
 import java.math.BigDecimal;
+import lombok.Data;
 
 @Data
 public class CreateBookRequestDto {
