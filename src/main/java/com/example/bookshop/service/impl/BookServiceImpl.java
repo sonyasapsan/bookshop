@@ -30,26 +30,26 @@ public class BookServiceImpl implements BookService {
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toModel(requestDto);
         book.setIsbn(generateIsbn());
-        return bookMapper.toDto(bookRepository.save(book));
+        return bookMapper.toBook(bookRepository.save(book));
     }
 
     @Override
     public List<BookDto> getAll() {
         return bookRepository.findAll().stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toBook)
                 .toList();
     }
 
     @Override
     public List<BookDto> findAllByAuthor(String author) {
         return bookRepository.findAllByAuthor(author).stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toBook)
                 .toList();
     }
 
     @Override
     public BookDto findById(Long id) {
-        return bookMapper.toDto(bookRepository
+        return bookMapper.toBook(bookRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book"
                         + " with this id: " + id)));
