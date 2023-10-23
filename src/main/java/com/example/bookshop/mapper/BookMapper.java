@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
-    BookDto toDto(Book book);
+    BookDto toBook(Book book);
 
     Book toModel(CreateBookRequestDto createBookRequestDto);
 }
