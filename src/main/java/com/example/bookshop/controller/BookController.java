@@ -36,8 +36,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody BookDto bookDto, Long id) {
-        bookService.update(bookDto, id);
+    public BookDto update(@RequestBody BookDto bookDto, Long id) {
+        return bookService.update(bookDto, id);
     }
 
     @GetMapping("/{id}")
