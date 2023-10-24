@@ -1,14 +1,17 @@
 package com.example.bookshop.mapper;
-
-import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.BookDto;
 import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.model.Book;
 import org.mapstruct.Mapper;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.NullValueCheckStrategy;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        implementationPackage = "<PACKAGE_NAME>.impl")
 public interface BookMapper {
-    BookDto toBook(Book book);
+    BookDto toDto(Book book);
 
-    Book toModel(CreateBookRequestDto createBookRequestDto);
+    Book toBook(CreateBookRequestDto createBookRequestDto);
 }
