@@ -59,12 +59,12 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
+            <version>4.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-maven-plugin</artifactId>
-            <version>${liquibase.version}</version>
+            <version>4.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -80,6 +80,17 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.20.0</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/book_shop</url>
+                    <username>root</username>
+                    <password>Password0303</password>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -143,5 +154,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
