@@ -1,6 +1,7 @@
 package com.example.bookshop.repository.impl;
 
 import com.example.bookshop.exception.DataProcessingException;
+import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class BookRepositoryImpl implements BookRepository {
             entityManager.persist(book);
             entityTransaction.commit();
             return book;
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             if (entityTransaction != null && entityTransaction.isActive()) {
                 entityTransaction.rollback();
             }
@@ -37,8 +38,8 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> getAll() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery("FROM Book", Book.class).getResultList();
-        } catch (RuntimeException e) {
-            throw new DataProcessingException("Can't get all books, cause: " + e);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can't get all books, cause: " + e);
         }
     }
 
@@ -47,21 +48,20 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             Book book = entityManager.find(Book.class, id);
             return Optional.ofNullable(book);
-        } catch (RuntimeException e) {
-            throw new DataProcessingException("Can't get book by id " + id + ", cause: " + e);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can't get book by id " + id + ", cause: " + e);
         }
     }
 
     @Override
     public List<Book> findAllByAuthor(String author) {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            return entityManager
-                    .createQuery("SELECT b FROM Book b"
+            return entityManager.createQuery("SELECT b FROM Book b"
                             + " WHERE lower(b.author) LIKE :author", Book.class)
                     .setParameter("author", "%" + author.toLowerCase() + "%")
                     .getResultList();
-        } catch (RuntimeException e) {
-            throw new DataProcessingException("Can't get all books where author is "
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can't get all books where author is "
                     + author + ", cause: " + e);
         }
     }
