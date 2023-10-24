@@ -12,4 +12,8 @@ public interface BookService {
     List<BookDto> findAllByAuthor(String author);
 
     BookDto findById(Long id);
+
+    void deleteById(Long id);
+
+    void update(BookDto bookDto, Long id);
 }
