@@ -28,37 +28,29 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
-        Book book = bookMapper.toModel(requestDto);
-        book.setIsbn(generateIsbn());
-        return bookMapper.toBook(bookRepository.save(book));
+        Book book = bookMapper.toBook(requestDto);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public List<BookDto> getAll() {
         return bookRepository.getAll().stream()
-                .map(bookMapper::toBook)
+                .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
     public List<BookDto> findAllByAuthor(String author) {
         return bookRepository.findAllByAuthor(author).stream()
-                .map(bookMapper::toBook)
+                .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
     public BookDto findById(Long id) {
-        return bookMapper.toBook(bookRepository
+        return bookMapper.toDto(bookRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book"
                         + " with this id: " + id)));
-    }
-
-    private String generateIsbn() {
-        stringBuilder = new StringBuilder(ISBN_START);
-        IntStream.range(0, 10)
-                .forEach(i -> stringBuilder.append(random.nextInt(10)));
-        return stringBuilder.toString();
     }
 }

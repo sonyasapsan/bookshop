@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 
@@ -25,7 +25,7 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto save(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto create(@RequestBody CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
