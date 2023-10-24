@@ -8,22 +8,16 @@ import com.example.bookshop.model.Book;
 import com.example.bookshop.repository.BookRepository;
 import com.example.bookshop.service.BookService;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private static final String ISBN_START = "978";
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private StringBuilder stringBuilder;
-    private Random random;
 
     public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
-        random = new Random();
     }
 
     @Override
