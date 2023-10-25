@@ -11,7 +11,6 @@ import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.repository.specification.impl.BookSpecificationBuilderImpl;
 import com.example.bookshop.service.BookService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -62,19 +61,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto update(BookDto bookDto, Long id) {
-        Optional<Book> optionalBookFromDB = bookRepository.findById(id);
-        Book bookFromDB = optionalBookFromDB
-                .orElseThrow(() -> new EntityNotFoundException("Can't find book"
-                + " with this id: " + id + " to change it"));
-        bookFromDB.setTitle(bookDto.title());
-        bookFromDB.setAuthor(bookDto.author());
-        bookFromDB.setPrice(bookDto.price());
-        bookFromDB.setDescription(bookDto.description());
-        bookFromDB.setCoverImage(bookDto.coverImage());
-        bookFromDB.setId(id);
-        bookFromDB.setIsbn(bookDto.isbn());
-        return bookMapper.toDto(bookRepository.save(bookFromDB));
+    public BookDto update(CreateBookRequestDto createBookRequestDto, Long id) {
+        if (!bookRepository.existsById(id)) {
+            throw new EntityNotFoundException("There is no book with such id: " + id);
+        }
+        Book book = bookMapper.toBook(createBookRequestDto);
+        book.setId(id);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
