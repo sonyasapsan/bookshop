@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
-    @GetMapping("/by-author")
+    @GetMapping("/author")
     public List<BookDto> findAllByAuthor(@RequestParam String author) {
         return bookService.findAllByAuthor(author);
     }
