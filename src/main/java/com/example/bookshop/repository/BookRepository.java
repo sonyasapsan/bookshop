@@ -2,14 +2,9 @@ package com.example.bookshop.repository;
 
 import com.example.bookshop.model.Book;
 import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface BookRepository {
-    Book save(Book book);
-
-    List<Book> getAll();
-
-    Optional<Book> findById(Long id);
-
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     List<Book> findAllByAuthor(String author);
 }
