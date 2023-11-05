@@ -37,6 +37,7 @@ public class BookController {
     }
 
     @Operation(summary = "Create a new book", description = "add information to db")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public BookDto create(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
@@ -56,6 +57,7 @@ public class BookController {
     }
 
     @Operation(summary = "Update the certain book", description = "update the certain book by id")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
     public BookDto update(@RequestBody @Valid CreateBookRequestDto requestDto,
                           @PathVariable Long id) {
