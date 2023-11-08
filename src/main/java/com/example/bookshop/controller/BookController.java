@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,8 @@ public class BookController {
     @Operation(summary = "find all books where authors with certain name",
                 description = "find all books by athours")
     @GetMapping("/author")
-    public List<BookDto> findAllByAuthor(@RequestParam String author) {
+    public List<BookDto> findAllByAuthor(@RequestParam String author,
+                                         @PageableDefault Pageable pageable) {
         return bookService.findAllByAuthor(author);
     }
 
@@ -48,14 +50,14 @@ public class BookController {
 
     @Operation(summary = "Get all books", description = "amount can be limited by parameter")
     @GetMapping
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDto> getAll(@PageableDefault Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
     @Operation(summary = "Delete the certain book", description = "Delete the book from DB by id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 
@@ -74,7 +76,7 @@ public class BookController {
 
     @Operation(summary = "Find the certain book by id", description = "searching the certain book")
     @GetMapping("/{id}")
-    public BookDto findById(@PathVariable Long id) {
+    public BookDto findById(@PathVariable @Positive Long id) {
         return bookService.findById(id);
     }
 }
