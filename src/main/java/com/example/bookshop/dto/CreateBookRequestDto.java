@@ -1,23 +1,25 @@
 package com.example.bookshop.dto;
 
 import com.example.bookshop.validation.Isbn;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-
+import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import org.hibernate.validator.constraints.Length;
 
 public record CreateBookRequestDto(@NotNull
                                    @Length(max = 250)
+                                   @NotEmpty
                                    String title,
                                    @NotNull
+                                   @NotEmpty
                                    @Length(max = 100)
                                    String author,
                                    @NotNull
-                                   @Min(0)
+                                   @PositiveOrZero
                                    BigDecimal price,
                                    @Isbn
-                                   @NotNull
+                                   @NotEmpty
                                    @Length(max = 15)
                                    String isbn,
                                    String description,

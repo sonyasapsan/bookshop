@@ -5,9 +5,11 @@ import com.example.bookshop.dto.BookSearchParameters;
 import com.example.bookshop.dto.CreateBookRequestDto;
 import com.example.bookshop.service.BookService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/books")
@@ -47,10 +50,9 @@ public class BookController {
         bookService.deleteById(id);
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
     public BookDto update(@RequestBody @Valid CreateBookRequestDto requestDto,
-                          @PathVariable Long id) {
+                          @PathVariable @Positive Long id) {
         return bookService.update(requestDto, id);
     }
 
