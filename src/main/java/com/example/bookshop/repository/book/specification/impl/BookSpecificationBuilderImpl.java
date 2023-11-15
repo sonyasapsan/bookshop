@@ -1,9 +1,9 @@
-package com.example.bookshop.repository.specification.impl;
+package com.example.bookshop.repository.book.specification.impl;
 
-import com.example.bookshop.dto.BookSearchParameters;
+import com.example.bookshop.dto.book.BookSearchParameters;
 import com.example.bookshop.model.Book;
-import com.example.bookshop.repository.SpecificationBuilder;
-import com.example.bookshop.repository.SpecificationProviderManager;
+import com.example.bookshop.repository.book.SpecificationBuilder;
+import com.example.bookshop.repository.book.SpecificationProviderManager;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
