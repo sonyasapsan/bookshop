@@ -6,15 +6,11 @@ import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
-import com.example.bookshop.model.User;
 import com.example.bookshop.repository.book.BookRepository;
 import com.example.bookshop.repository.book.SpecificationBuilder;
 import com.example.bookshop.repository.book.specification.impl.BookSpecificationBuilderImpl;
-import com.example.bookshop.repository.user.UserRepository;
 import com.example.bookshop.service.BookService;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -44,8 +40,6 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDto)
                 .toList();
     }
-
-
 
     @Override
     public List<BookDto> findAllByAuthor(String author) {

@@ -2,16 +2,17 @@ databaseChangeLog:
   - changeSet:
       id: insert-roles
       author: sonia_baranova
+      checksum: 8:092b9a7b0252713faf6170853a0d9e80
       changes:
         - insert:
             tableName: roles
             columns:
               - column:
                   name: name
-                  value: 'USER'
+                  value: 'ROLE_USER'
         - insert:
             tableName: roles
             columns:
               - column:
                   name: name
-                  value: 'ADMIN'
+                  value: 'ROLE_ADMIN'

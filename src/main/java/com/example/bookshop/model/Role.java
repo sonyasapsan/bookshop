@@ -1,6 +1,13 @@
 package com.example.bookshop.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -21,8 +28,7 @@ public class Role implements GrantedAuthority {
     }
 
     public enum RoleName {
-        ADMIN,
-        USER
+        ROLE_ADMIN,
+        ROLE_USER
     }
 }
-

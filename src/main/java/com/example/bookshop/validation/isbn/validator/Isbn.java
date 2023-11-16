@@ -1,4 +1,4 @@
-package com.example.bookshop.validation;
+package com.example.bookshop.validation.isbn.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

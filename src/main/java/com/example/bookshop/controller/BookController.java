@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "find all books where authors with certain name",
-                description = "find all books by athours")
+                description = "find all books by author")
     @GetMapping("/author")
     public List<BookDto> findAllByAuthor(@RequestParam String author,
                                          @PageableDefault Pageable pageable) {
@@ -51,7 +51,7 @@ public class BookController {
         return bookService.save(requestDto);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "Get all books", description = "amount can be limited by parameter")
     @GetMapping
     public List<BookDto> getAll(@PageableDefault Pageable pageable) {
@@ -74,14 +74,14 @@ public class BookController {
         return bookService.update(requestDto, id);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "Get all books which meet some requirements", description = "filtering")
     @GetMapping("/search")
     public List<BookDto> search(BookSearchParameters bookSearchParameters) {
         return bookService.search(bookSearchParameters);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "Find the certain book by id", description = "searching the certain book")
     @GetMapping("/{id}")
     public BookDto findById(@PathVariable @Positive Long id) {
