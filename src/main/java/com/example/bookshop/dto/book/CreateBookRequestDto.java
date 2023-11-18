@@ -1,6 +1,6 @@
-package com.example.bookshop.dto;
+package com.example.bookshop.dto.book;
 
-import com.example.bookshop.validation.Isbn;
+import com.example.bookshop.validation.isbn.validator.Isbn;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

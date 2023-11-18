@@ -1,8 +1,8 @@
-package com.example.bookshop.repository.providers.impl;
+package com.example.bookshop.repository.book.providers.impl;
 
 import com.example.bookshop.model.Book;
-import com.example.bookshop.repository.SpecificationProvider;
-import com.example.bookshop.repository.SpecificationProviderManager;
+import com.example.bookshop.repository.book.SpecificationProvider;
+import com.example.bookshop.repository.book.SpecificationProviderManager;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
