@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,12 +44,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private boolean isDeleted;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
     @Override

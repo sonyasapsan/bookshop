@@ -11,9 +11,11 @@ import com.example.bookshop.repository.role.RoleRepository;
 import com.example.bookshop.repository.user.UserRepository;
 import com.example.bookshop.service.UserService;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -22,25 +24,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private Role role;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           UserMapper userMapper, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
-        this.roleRepository = roleRepository;
-    }
-
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException {
-        if (userRepository.findUserByEmail(request.email()).isPresent()) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new RegistrationException("Unable to complete registration");
         }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.password()));
-        role = roleRepository.findRoleByName(Role.RoleName.ROLE_USER)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find"
-                        + " the role for your registration"));
+        role = roleRepository.findRoleByName(Role.RoleName.ROLE_USER);
         user.setRoles(Set.of(role));
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponse(savedUser);
