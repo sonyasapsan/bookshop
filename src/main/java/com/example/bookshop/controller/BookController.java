@@ -34,11 +34,11 @@ public class BookController {
     private final BookService bookService;
 
     @Operation(summary = "find all books where authors with certain name",
-                description = "find all books by athours")
-    @GetMapping("/author")
-    public List<BookDto> findAllByAuthor(@RequestParam String author,
+                description = "find all books by authors")
+    @GetMapping("/{author}")
+    public List<BookDto> findAllByAuthor(@PathVariable String author,
                                          @PageableDefault Pageable pageable) {
-        return bookService.findAllByAuthor(author);
+        return bookService.findAllByAuthor(author, pageable);
     }
 
     @Operation(summary = "Create a new book", description = "add information to db")
@@ -70,8 +70,8 @@ public class BookController {
 
     @Operation(summary = "Get all books which meet some requirements", description = "filtering")
     @GetMapping("/search")
-    public List<BookDto> search(BookSearchParameters bookSearchParameters) {
-        return bookService.search(bookSearchParameters);
+    public List<BookDto> search(BookSearchParameters bookSearchParameters, @PageableDefault Pageable pageable) {
+        return bookService.search(bookSearchParameters, pageable);
     }
 
     @Operation(summary = "Find the certain book by id", description = "searching the certain book")
