@@ -11,7 +11,7 @@ public interface BookService {
 
     List<BookDto> getAll(Pageable pageable);
 
-    List<BookDto> findAllByAuthor(String author);
+    List<BookDto> findAllByAuthor(String author, Pageable pageable);
 
     BookDto findById(Long id);
 
@@ -19,5 +19,5 @@ public interface BookService {
 
     BookDto update(CreateBookRequestDto createBookRequestDto, Long id);
 
-    List<BookDto> search(BookSearchParameters bookSearchParameters);
+    List<BookDto> search(BookSearchParameters bookSearchParameters, Pageable pageable);
 }
