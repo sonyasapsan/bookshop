@@ -11,6 +11,7 @@ import com.example.bookshop.repository.SpecificationBuilder;
 import com.example.bookshop.repository.specification.impl.BookSpecificationBuilderImpl;
 import com.example.bookshop.service.BookService;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,15 +35,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
-    public List<BookDto> findAllByAuthor(String author) {
-        return bookRepository.findAllByAuthor(author).stream()
+    public List<BookDto> findAllByAuthor(String author, Pageable pageable) {
+        return bookRepository.findAllByAuthor(author, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -71,10 +72,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParameters bookSearchParameters) {
+    public List<BookDto> search(BookSearchParameters bookSearchParameters, Pageable pageable) {
         Specification<Book> bookSpecification = bookSpecificationBuilder
                 .build(bookSearchParameters);
-        return bookRepository.findAll(bookSpecification).stream()
+        return bookRepository.findAll(bookSpecification, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
