@@ -1,7 +1,6 @@
 package com.example.bookshop.security;
 
 import com.example.bookshop.exception.EntityNotFoundException;
-import com.example.bookshop.model.User;
 import com.example.bookshop.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

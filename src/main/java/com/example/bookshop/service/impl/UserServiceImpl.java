@@ -2,7 +2,6 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.user.UserRegistrationRequestDto;
 import com.example.bookshop.dto.user.UserRegistrationResponseDto;
-import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.exception.RegistrationException;
 import com.example.bookshop.mapper.UserMapper;
 import com.example.bookshop.model.Role;

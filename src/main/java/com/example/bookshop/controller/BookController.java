@@ -2,6 +2,7 @@ package com.example.bookshop.controller;
 
 import com.example.bookshop.dto.book.BookDto;
 import com.example.bookshop.dto.book.BookSearchParameters;
+import com.example.bookshop.dto.book.BookToDtoWithoutCategoryIds;
 import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.example.bookshop.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +44,8 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Create a new book", description = "add information to db")
+    @Operation(summary = "Create a new book",
+            description = "add information to db")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public BookDto create(@RequestBody @Valid CreateBookRequestDto requestDto) {
@@ -51,14 +53,16 @@ public class BookController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @Operation(summary = "Get all books", description = "amount can be limited by parameter")
+    @Operation(summary = "Get all books",
+            description = "amount can be limited by parameter")
     @GetMapping
     public List<BookDto> getAll(@PageableDefault Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Delete the certain book", description = "Delete the book from DB by id")
+    @Operation(summary = "Delete the certain book",
+            description = "Delete the book from DB by id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable @Positive Long id) {
@@ -66,7 +70,8 @@ public class BookController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Update the certain book", description = "update the certain book by id")
+    @Operation(summary = "Update the certain book",
+            description = "update the certain book by id")
     @PutMapping("/{id}")
     public BookDto update(@RequestBody @Valid CreateBookRequestDto requestDto,
                           @PathVariable @Positive Long id) {
@@ -74,16 +79,19 @@ public class BookController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @Operation(summary = "Get all books which meet some requirements", description = "filtering")
+    @Operation(summary = "Get all books which meet some requirements",
+            description = "filtering")
     @GetMapping("/search")
-    public List<BookDto> search(BookSearchParameters bookSearchParameters, @PageableDefault Pageable pageable) {
+    public List<BookDto> search(BookSearchParameters bookSearchParameters,
+                                @PageableDefault Pageable pageable) {
         return bookService.search(bookSearchParameters, pageable);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @Operation(summary = "Find the certain book by id", description = "searching the certain book")
+    @Operation(summary = "Find the certain book by id",
+            description = "searching the certain book")
     @GetMapping("/{id}")
-    public BookDto findById(@PathVariable @Positive Long id) {
+    public BookToDtoWithoutCategoryIds findById(@PathVariable @Positive Long id) {
         return bookService.findById(id);
     }
 }

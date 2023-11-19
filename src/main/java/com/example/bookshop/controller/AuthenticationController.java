@@ -24,13 +24,15 @@ public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    @Operation(summary = "login", description = "allows a registered user to log in")
+    @Operation(summary = "login",
+            description = "allows a registered user to log in")
     @PostMapping("/login")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto userLoginRequestDto) {
         return authenticationService.authenticate(userLoginRequestDto);
     }
 
-    @Operation(summary = "registration", description = "allows an unregistered user to register")
+    @Operation(summary = "registration",
+            description = "allows an unregistered user to register")
     @PostMapping("/register")
     public UserRegistrationResponseDto register(@RequestBody @Valid
                                                 UserRegistrationRequestDto userRegistrationRequest)
