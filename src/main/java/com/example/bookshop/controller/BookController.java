@@ -56,7 +56,7 @@ public class BookController {
     @Operation(summary = "Get all books",
             description = "amount can be limited by parameter")
     @GetMapping
-    public List<BookDto> getAll(@PageableDefault Pageable pageable) {
+    public List<BookToDtoWithoutCategoryIds> getAll(@PageableDefault Pageable pageable) {
         return bookService.getAll(pageable);
     }
 

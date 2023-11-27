@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
-    private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
 
     @Override
     public CategoryDto save(CreateCategoryRequestDto requestDto) {
@@ -57,13 +55,5 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deletedById(Long id) {
         categoryRepository.deleteById(id);
-    }
-
-    @Override
-    public List<BookDto> getAllBooksByCategory(Long id) {
-        return bookRepository.findAllByCategoriesId(id)
-                .stream()
-                .map(bookMapper::toDto)
-                .toList();
     }
 }

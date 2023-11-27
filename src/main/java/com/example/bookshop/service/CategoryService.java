@@ -16,6 +16,4 @@ public interface CategoryService {
     CategoryDto update(CreateCategoryRequestDto createCategoryRequestDto, Long id);
 
     void deletedById(Long id);
-
-    List<BookDto> getAllBooksByCategory(Long id);
 }

@@ -14,7 +14,10 @@ import com.example.bookshop.repository.category.CategoryRepository;
 import com.example.bookshop.service.BookService;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,9 +39,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookToDtoWithoutCategoryIds> getAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toBookWithoutCategoryIds)
                 .toList();
     }
 
@@ -83,14 +86,20 @@ public class BookServiceImpl implements BookService {
     }
 
     private Book saveOrUpdateCategories(Book book, CreateBookRequestDto requestDto) {
-        Set<Category> categories = new HashSet<>();
-        for (Long categoryId : requestDto.categoriesIds()) {
-            Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new EntityNotFoundException("Can't find category "
-                            + "with id: " + categoryId));
-            categories.add(category);
-        }
+        Set<Category> categories = requestDto.categoriesIds().stream()
+                .map(categoryRepository::findById)
+                .map(o -> o.orElseThrow(() -> new EntityNotFoundException("Can't"
+                        + " find category.")))
+                .collect(Collectors.toSet());
         book.setCategories(categories);
         return book;
+    }
+
+    @Override
+    public List<BookDto> getAllBooksByCategory(Long id) {
+        return bookRepository.findAllByCategoriesId(id)
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
