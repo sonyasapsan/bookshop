@@ -1,6 +1,5 @@
 package com.example.bookshop.service;
 
-import com.example.bookshop.dto.book.BookDto;
 import com.example.bookshop.dto.category.CategoryDto;
 import com.example.bookshop.dto.category.CreateCategoryRequestDto;
 import java.util.List;

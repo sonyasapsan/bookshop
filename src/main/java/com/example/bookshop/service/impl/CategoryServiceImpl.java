@@ -1,13 +1,10 @@
 package com.example.bookshop.service.impl;
 
-import com.example.bookshop.dto.book.BookDto;
 import com.example.bookshop.dto.category.CategoryDto;
 import com.example.bookshop.dto.category.CreateCategoryRequestDto;
 import com.example.bookshop.exception.EntityNotFoundException;
-import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.mapper.CategoryMapper;
 import com.example.bookshop.model.Category;
-import com.example.bookshop.repository.book.BookRepository;
 import com.example.bookshop.repository.category.CategoryRepository;
 import com.example.bookshop.service.CategoryService;
 import java.util.List;
