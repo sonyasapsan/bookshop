@@ -14,10 +14,14 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "shopping_carts")
 @SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id=?")
@@ -30,6 +34,7 @@ public class ShoppingCart {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private User user;
+    @HashCodeExclude
     @OneToMany(mappedBy = "shoppingCart")
     private Set<CartItem> cartItems = new HashSet<>();
     @Column(nullable = false)

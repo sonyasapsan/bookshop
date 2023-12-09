@@ -13,14 +13,12 @@ import com.example.bookshop.model.User;
 import com.example.bookshop.repository.book.BookRepository;
 import com.example.bookshop.repository.cartitem.CartItemRepository;
 import com.example.bookshop.repository.shoppingcart.ShoppingCartRepository;
-import com.example.bookshop.repository.user.UserRepository;
 import com.example.bookshop.service.ShoppingCartService;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.example.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
     private final ShoppingCartRepository shoppingCartRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CartItemRepository cartItemRepository;
     private final CartItemMapper cartItemMapper;
     private final BookRepository bookRepository;
@@ -48,7 +46,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDto getShoppingCart() {
-        User user = getUserFromContext();
+        User user = userService.getUserFromContext();
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(user)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find shopping cart"
                 + " for user with email:" + user.getEmail()));
@@ -61,8 +59,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     private ShoppingCart getShoppingCartForUser() {
-        User user = getUserFromContext();
-        System.out.println("id: " + user.getId());
+        User user = userService.getUserFromContext();
         if (shoppingCartRepository.existsShoppingCartByUser(user)) {
             return shoppingCartRepository.findShoppingCartByUser(user)
                     .orElseThrow(() -> new EntityNotFoundException("Can't find the shopping cart"));
@@ -70,13 +67,5 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         return shoppingCartRepository.save(shoppingCart);
-    }
-
-    private User getUserFromContext() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userRepository.findUserByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user with this email:"
-                + userDetails.getUsername()));
     }
 }
