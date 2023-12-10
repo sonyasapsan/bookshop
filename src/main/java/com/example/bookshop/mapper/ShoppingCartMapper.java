@@ -3,17 +3,12 @@ package com.example.bookshop.mapper;
 import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.shoppingcart.ShoppingCartDto;
 import com.example.bookshop.model.ShoppingCart;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, componentModel = "spring",
+        uses = CartItemListMapper.class)
 public interface ShoppingCartMapper {
+    @Mapping(source = "user.id", target = "userId")
     ShoppingCartDto toDto(ShoppingCart shoppingCart);
-
-    @AfterMapping
-    default void setShoppingCartDetails(@MappingTarget ShoppingCartDto shoppingCartDto,
-                                 ShoppingCart shoppingCart) {
-        shoppingCartDto.setUserId(shoppingCart.getUser().getId());
-    }
 }

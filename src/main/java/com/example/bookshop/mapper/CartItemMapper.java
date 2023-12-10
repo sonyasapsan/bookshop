@@ -4,20 +4,14 @@ import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.cartitem.CartItemDto;
 import com.example.bookshop.dto.cartitem.CreateCartItemRequestDto;
 import com.example.bookshop.model.CartItem;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, componentModel = "spring")
 public interface CartItemMapper {
+    @Mapping(source = "book.id", target = "bookId")
+    @Mapping(source = "book.title", target = "bookTitle")
     CartItemDto toDto(CartItem cartItem);
 
     CartItem toCartItem(CreateCartItemRequestDto createCartItemRequestDto);
-
-    @AfterMapping
-    default void setBookDetails(@MappingTarget CartItemDto cartItemDto,
-                           CartItem cartItem) {
-        cartItemDto.setBookId(cartItem.getBook().getId());
-        cartItemDto.setBookTitle(cartItem.getBook().getTitle());
-    }
 }

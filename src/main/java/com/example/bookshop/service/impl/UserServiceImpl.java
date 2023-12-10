@@ -14,7 +14,6 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +40,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(savedUser);
     }
 
-    @Override
     public User getUserFromContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userRepository.findUserByEmail(userDetails.getUsername())
+        User user = (User) authentication.getPrincipal();
+        return userRepository.findUserByEmail(user.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("Can't find user with this email:"
-                        + userDetails.getUsername()));
+                        + user.getUsername()));
     }
 }

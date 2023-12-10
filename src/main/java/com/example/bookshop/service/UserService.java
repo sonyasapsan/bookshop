@@ -8,5 +8,6 @@ import com.example.bookshop.model.User;
 public interface UserService {
     UserRegistrationResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException;
+
     User getUserFromContext();
 }
