@@ -1,26 +1,20 @@
 package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.orderitem.OrderItemDto;
-import com.example.bookshop.dto.shoppingcart.ShoppingCartDto;
 import com.example.bookshop.exception.EntityNotFoundException;
-import com.example.bookshop.mapper.CartItemMapper;
 import com.example.bookshop.mapper.OrderItemMapper;
 import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
-import com.example.bookshop.model.ShoppingCart;
 import com.example.bookshop.repository.cartitem.CartItemRepository;
 import com.example.bookshop.repository.orderitem.OrderItemRepository;
 import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.ShoppingCartService;
-import com.example.bookshop.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +27,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public Set<OrderItem> getOrderItems() {
         return cartItemRepository.findAllByShoppingCartId(shoppingCartService
-                .getShoppingCart().id()).stream().
-                map(c -> {
+                .getShoppingCart().id()).stream()
+                .map(c -> {
                     OrderItem orderItem = orderItemMapper.turnCartItemToOrder(c);
                     orderItem.setPrice(orderItem.getBook().getPrice()
                             .multiply(new BigDecimal(orderItem.getQuantity())));
@@ -44,9 +38,9 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     public void saveOrderItems(Order order) {
         order.getOrderItems().forEach(orderItem -> {
-                    orderItem.setOrder(order);
-                    orderItemRepository.save(orderItem);
-                });
+            orderItem.setOrder(order);
+            orderItemRepository.save(orderItem);
+        });
     }
 
     @Override

@@ -8,19 +8,16 @@ import com.example.bookshop.mapper.OrderMapper;
 import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.model.Status;
-import com.example.bookshop.model.User;
 import com.example.bookshop.repository.order.OrderRepository;
 import com.example.bookshop.service.OrderItemService;
 import com.example.bookshop.service.OrderService;
 import com.example.bookshop.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderItemService orderItemService;
     private final OrderRepository orderRepository;
+
     @Override
     public void save(CreateOrderDto requestDto) {
         Order order = orderMapper.toOrder(requestDto);
@@ -43,8 +41,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> getAllOrders(Pageable pageable) {
         return orderRepository.getAllByUser(userService.getUserFromContext(),
-                pageable).stream().
-                map(orderMapper::toDto)
+                pageable).stream()
+                .map(orderMapper::toDto)
                 .toList();
     }
 
@@ -58,8 +56,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private BigDecimal getTotal(Order order) {
-        return new BigDecimal(String.valueOf(order.getOrderItems().stream().
-                map(OrderItem::getPrice)
+        return new BigDecimal(String.valueOf(order.getOrderItems().stream()
+                .map(OrderItem::getPrice)
                 .mapToDouble(BigDecimal::doubleValue)
                 .sum()));
     }
