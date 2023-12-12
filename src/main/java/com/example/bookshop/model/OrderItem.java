@@ -2,10 +2,13 @@ package com.example.bookshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Table(name = "order_items")
 @Entity
 public class OrderItem {
@@ -15,7 +18,7 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "order_id")
     Order order;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private Book book;
     @Column(nullable = false)

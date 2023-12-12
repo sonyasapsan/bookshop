@@ -2,6 +2,8 @@ package com.example.bookshop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -10,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
 @Entity
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
@@ -30,7 +33,7 @@ public class Order {
     private String shippingAddress;
     @Column(nullable = false)
     private LocalDateTime orderDate;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems;
     @Column(nullable = false)
     private boolean isDeleted = false;
