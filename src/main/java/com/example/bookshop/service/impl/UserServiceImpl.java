@@ -2,7 +2,6 @@ package com.example.bookshop.service.impl;
 
 import com.example.bookshop.dto.user.UserRegistrationRequestDto;
 import com.example.bookshop.dto.user.UserRegistrationResponseDto;
-import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.exception.RegistrationException;
 import com.example.bookshop.mapper.UserMapper;
 import com.example.bookshop.model.Role;
@@ -42,9 +41,6 @@ public class UserServiceImpl implements UserService {
 
     public User getUserFromContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        return userRepository.findUserByEmail(user.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user with this email:"
-                        + user.getUsername()));
+        return (User) authentication.getPrincipal();
     }
 }

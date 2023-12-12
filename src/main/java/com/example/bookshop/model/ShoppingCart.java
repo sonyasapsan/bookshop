@@ -31,7 +31,7 @@ public class ShoppingCart {
     private Long id;
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "shopping_cart_user")
     private User user;
     @OneToMany(mappedBy = "shoppingCart")
     private Set<CartItem> cartItems = new HashSet<>();
