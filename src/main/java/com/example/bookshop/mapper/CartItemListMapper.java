@@ -6,7 +6,7 @@ import com.example.bookshop.model.CartItem;
 import java.util.Set;
 import org.mapstruct.Mapper;
 
-@Mapper(config = MapperConfig.class, componentModel = "spring",
+@Mapper(config = MapperConfig.class,
         uses = CartItemMapper.class)
 public interface CartItemListMapper {
     Set<CartItemDto> toCartItemDtoSet(Set<CartItem> cartItemSet);
