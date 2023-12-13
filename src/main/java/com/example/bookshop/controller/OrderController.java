@@ -56,7 +56,7 @@ public class OrderController {
     @Operation(summary = "update Status",
             description = "update status for the certain order")
     @PatchMapping("/{id}")
-    public void updateOrderStatus(@RequestBody UpdateOrderStatusDto updateOrderStatusDto,
+    public void updateOrderStatus(@RequestBody @Valid UpdateOrderStatusDto updateOrderStatusDto,
                                   @PathVariable @Positive Long id) {
         System.out.println("Controller");
         orderService.updateOrderStatus(updateOrderStatusDto, id);
@@ -74,7 +74,8 @@ public class OrderController {
     @Operation(summary = "Get item from order by id",
             description = "get information from db")
     @GetMapping("/{id}/items/{itemId}")
-    public OrderItemDto getItemFromOrder(@PathVariable @Positive Long itemId) {
+    public OrderItemDto getItemFromOrder(@PathVariable @Positive Long itemId,
+                                         @PathVariable @Positive Long id) {
         return orderItemService.getItemFromOrderById(itemId);
     }
 }

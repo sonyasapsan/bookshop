@@ -7,11 +7,11 @@ import com.example.bookshop.model.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class, componentModel = "spring")
+@Mapper(config = MapperConfig.class)
 public interface OrderItemMapper {
     @Mapping(source = "book.id", target = "bookId")
     OrderItemDto toOrderItemDto(OrderItem orderItem);
 
     @Mapping(target = "id", ignore = true)
-    OrderItem turnCartItemToOrder(CartItem cartItem);
+    OrderItem convertCartItemToOrderItem(CartItem cartItem);
 }

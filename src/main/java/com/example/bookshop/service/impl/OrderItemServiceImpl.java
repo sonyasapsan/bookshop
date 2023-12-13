@@ -29,7 +29,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         return cartItemRepository.findAllByShoppingCartId(shoppingCartService
                 .getShoppingCart().id()).stream()
                 .map(c -> {
-                    OrderItem orderItem = orderItemMapper.turnCartItemToOrder(c);
+                    OrderItem orderItem = orderItemMapper.convertCartItemToOrderItem(c);
                     orderItem.setPrice(orderItem.getBook().getPrice()
                             .multiply(new BigDecimal(orderItem.getQuantity())));
                     return orderItem;
