@@ -3,6 +3,7 @@ package com.example.bookshop.service.impl;
 import com.example.bookshop.dto.orderitem.OrderItemDto;
 import com.example.bookshop.exception.EntityNotFoundException;
 import com.example.bookshop.mapper.OrderItemMapper;
+import com.example.bookshop.model.CartItem;
 import com.example.bookshop.model.Order;
 import com.example.bookshop.model.OrderItem;
 import com.example.bookshop.repository.cartitem.CartItemRepository;
@@ -25,22 +26,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final CartItemRepository cartItemRepository;
 
     @Override
-    public Set<OrderItem> getOrderItems() {
+    public Set<OrderItem> getOrderItems(Order order) {
         return cartItemRepository.findAllByShoppingCartId(shoppingCartService
                 .getShoppingCart().id()).stream()
-                .map(c -> {
-                    OrderItem orderItem = orderItemMapper.convertCartItemToOrderItem(c);
-                    orderItem.setPrice(orderItem.getBook().getPrice()
-                            .multiply(new BigDecimal(orderItem.getQuantity())));
-                    return orderItem;
-                }).collect(Collectors.toSet());
-    }
-
-    public void saveOrderItems(Order order) {
-        order.getOrderItems().forEach(orderItem -> {
-            orderItem.setOrder(order);
-            orderItemRepository.save(orderItem);
-        });
+                .map(this::getOrderItemFromCart)
+                .peek(o -> o.setOrder(order))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -55,5 +46,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemMapper.toOrderItemDto(orderItemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find order "
                         + "item by this id: " + id)));
+    }
+
+    private OrderItem getOrderItemFromCart(CartItem cartItem) {
+        OrderItem orderItem = orderItemMapper.convertCartItemToOrderItem(cartItem);
+        orderItem.setPrice(orderItem.getBook().getPrice()
+                .multiply(new BigDecimal(orderItem.getQuantity())));
+        return orderItem;
     }
 }

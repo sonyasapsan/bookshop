@@ -4,12 +4,11 @@ import com.example.bookshop.config.MapperConfig;
 import com.example.bookshop.dto.order.CreateOrderDto;
 import com.example.bookshop.dto.order.OrderDto;
 import com.example.bookshop.model.Order;
-import com.example.bookshop.model.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class,
-        uses = OrderItem.class)
+        uses = OrderItemMapper.class)
 public interface OrderMapper {
     @Mapping(source = "user.id", target = "userId")
     OrderDto toDto(Order order);

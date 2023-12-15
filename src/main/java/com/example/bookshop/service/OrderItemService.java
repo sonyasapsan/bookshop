@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface OrderItemService {
-    Set<OrderItem> getOrderItems();
-
-    void saveOrderItems(Order order);
+    Set<OrderItem> getOrderItems(Order order);
 
     List<OrderItemDto> getItemsFromOrder(Long id);
 

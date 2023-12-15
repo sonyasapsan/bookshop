@@ -29,13 +29,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(CreateOrderDto requestDto) {
-        Order order = orderMapper.toOrder(requestDto);
-        order.setUser(userService.getUserFromContext());
-        order.setOrderDate(LocalDateTime.now());
-        order.setStatus(Status.PROCESSING);
-        order.setOrderItems(orderItemService.getOrderItems());
-        order.setTotal(getTotal(order));
-        orderItemService.saveOrderItems(orderRepository.save(order));
+        Order order = setOrderDetails(requestDto);
+        orderRepository.save(order);
     }
 
     @Override
@@ -60,5 +55,15 @@ public class OrderServiceImpl implements OrderService {
                 .map(OrderItem::getPrice)
                 .mapToDouble(BigDecimal::doubleValue)
                 .sum()));
+    }
+
+    private Order setOrderDetails(CreateOrderDto requestDto) {
+        Order order = orderMapper.toOrder(requestDto);
+        order.setUser(userService.getUserFromContext());
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(Status.PROCESSING);
+        order.setOrderItems(orderItemService.getOrderItems(order));
+        order.setTotal(getTotal(order));
+        return order;
     }
 }
