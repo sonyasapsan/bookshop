@@ -26,7 +26,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final CartItemRepository cartItemRepository;
 
     @Override
-    public Set<OrderItem> getOrderItems(Order order) {
+    public Set<OrderItem> getOrderItemsByCart(Order order) {
         return cartItemRepository.findAllByShoppingCartId(shoppingCartService
                 .getShoppingCart().id()).stream()
                 .map(this::getOrderItemFromCart)

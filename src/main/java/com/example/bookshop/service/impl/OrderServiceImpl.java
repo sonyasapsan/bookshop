@@ -28,9 +28,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public void save(CreateOrderDto requestDto) {
+    public OrderDto save(CreateOrderDto requestDto) {
         Order order = setOrderDetails(requestDto);
-        orderRepository.save(order);
+        return orderMapper.toDto(orderRepository.save(order));
     }
 
     @Override
@@ -42,12 +42,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(UpdateOrderStatusDto updateOrderStatusDto, Long id) {
+    public OrderDto updateOrderStatus(UpdateOrderStatusDto updateOrderStatusDto, Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find order by id" + id));
         order.setStatus(updateOrderStatusDto.status());
-        System.out.println("service");
-        orderRepository.save(order);
+        return orderMapper.toDto(orderRepository.save(order));
     }
 
     private BigDecimal getTotal(Order order) {
@@ -62,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(userService.getUserFromContext());
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(Status.PROCESSING);
-        order.setOrderItems(orderItemService.getOrderItems(order));
+        order.setOrderItems(orderItemService.getOrderItemsByCart(order));
         order.setTotal(getTotal(order));
         return order;
     }

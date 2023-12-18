@@ -40,8 +40,8 @@ public class OrderController {
             description = "add information to db")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void create(@RequestBody @Valid CreateOrderDto requestDto) {
-        orderService.save(requestDto);
+    public OrderDto create(@RequestBody @Valid CreateOrderDto requestDto) {
+        return orderService.save(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -56,9 +56,9 @@ public class OrderController {
     @Operation(summary = "update Status",
             description = "update status for the certain order")
     @PatchMapping("/{id}")
-    public void updateOrderStatus(@RequestBody @Valid UpdateOrderStatusDto updateOrderStatusDto,
+    public OrderDto updateOrderStatus(@RequestBody @Valid UpdateOrderStatusDto updateOrderStatusDto,
                                   @PathVariable @Positive Long id) {
-        orderService.updateOrderStatus(updateOrderStatusDto, id);
+        return orderService.updateOrderStatus(updateOrderStatusDto, id);
     }
 
     @PreAuthorize("hasRole('USER')")

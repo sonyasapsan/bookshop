@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
 public interface OrderService {
-    void save(CreateOrderDto requestDto);
+    OrderDto save(CreateOrderDto requestDto);
 
     List<OrderDto> getAllOrders(@PageableDefault Pageable pageable);
 
-    void updateOrderStatus(UpdateOrderStatusDto updateOrderStatusDto, Long id);
+    OrderDto updateOrderStatus(UpdateOrderStatusDto updateOrderStatusDto, Long id);
 }
