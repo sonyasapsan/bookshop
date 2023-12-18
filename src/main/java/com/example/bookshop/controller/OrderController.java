@@ -58,7 +58,6 @@ public class OrderController {
     @PatchMapping("/{id}")
     public void updateOrderStatus(@RequestBody @Valid UpdateOrderStatusDto updateOrderStatusDto,
                                   @PathVariable @Positive Long id) {
-        System.out.println("Controller");
         orderService.updateOrderStatus(updateOrderStatusDto, id);
     }
 
