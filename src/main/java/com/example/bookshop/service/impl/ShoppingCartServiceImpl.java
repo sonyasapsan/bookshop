@@ -14,6 +14,7 @@ import com.example.bookshop.repository.cartitem.CartItemRepository;
 import com.example.bookshop.repository.shoppingcart.ShoppingCartRepository;
 import com.example.bookshop.service.ShoppingCartService;
 import com.example.bookshop.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final BookRepository bookRepository;
 
     @Override
+    @Transactional
     public void addItem(CreateCartItemRequestDto createCartItemRequestDto) {
         ShoppingCart shoppingCart = getShoppingCartForUser();
         Book book = bookRepository.findById(createCartItemRequestDto.bookId())
@@ -46,6 +48,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
+    @Transactional
     private ShoppingCart getShoppingCartForUser() {
         User user = userService.getUserFromContext();
         if (shoppingCartRepository.existsShoppingCartByUser(user)) {

@@ -9,6 +9,7 @@ import com.example.bookshop.model.User;
 import com.example.bookshop.repository.role.RoleRepository;
 import com.example.bookshop.repository.user.UserRepository;
 import com.example.bookshop.service.UserService;
+import jakarta.transaction.Transactional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -39,8 +40,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(savedUser);
     }
 
+    @Transactional
     public User getUserFromContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
+        return userRepository.save((User) authentication.getPrincipal());
     }
 }
