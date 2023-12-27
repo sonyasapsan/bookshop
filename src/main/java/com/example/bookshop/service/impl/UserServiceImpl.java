@@ -43,6 +43,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User getUserFromContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.save((User) authentication.getPrincipal());
+        return (User) authentication.getPrincipal();
     }
 }
