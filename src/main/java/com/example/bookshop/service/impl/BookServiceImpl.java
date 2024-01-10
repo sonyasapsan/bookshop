@@ -82,21 +82,22 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
-    private Book saveOrUpdateCategories(Book book, CreateBookRequestDto requestDto) {
-        Set<Category> categories = requestDto.categoriesIds().stream()
-                .map(categoryRepository::findById)
-                .map(o -> o.orElseThrow(() -> new EntityNotFoundException("Can't"
-                        + " find category.")))
-                .collect(Collectors.toSet());
-        book.setCategories(categories);
-        return book;
-    }
-
     @Override
     public List<BookDto> getAllBooksByCategory(Long id) {
-        return bookRepository.findAllByCategoriesId(id)
-                .stream()
+        return bookRepository.findAllByCategoriesId(id).stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    private Book saveOrUpdateCategories(Book book, CreateBookRequestDto requestDto) {
+        if (requestDto.categoriesIds() != null) {
+            Set<Category> categories = requestDto.categoriesIds().stream()
+                    .map(categoryRepository::findById)
+                    .map(o -> o.orElseThrow(() -> new EntityNotFoundException("Can't"
+                            + " find category.")))
+                    .collect(Collectors.toSet());
+            book.setCategories(categories);
+        }
+        return book;
     }
 }
