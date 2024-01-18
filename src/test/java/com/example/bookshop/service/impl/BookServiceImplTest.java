@@ -13,6 +13,10 @@ import com.example.bookshop.mapper.BookMapper;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Category;
 import com.example.bookshop.repository.book.BookRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,12 +25,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
@@ -40,10 +42,6 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Save valid book")
     public void save_validCase_returnBookDto() {
-        CreateBookRequestDto requestDto;
-        requestDto = new CreateBookRequestDto("A book", "An author",
-                new BigDecimal("100"), "9781234567890",
-                null, null,null);
         Long bookId = 1L;
         Book book = new Book();
         book.setId(bookId);
@@ -51,6 +49,9 @@ class BookServiceImplTest {
         book.setPrice(new BigDecimal("100"));
         book.setAuthor("An author");
         book.setTitle("A book");
+        CreateBookRequestDto requestDto = new CreateBookRequestDto("A book", "An author",
+                new BigDecimal("100"), "9781234567890",
+                null, null,null);
 
         BookDto bookDto = new BookDto(book.getId(), book.getTitle(), book.getAuthor(),
                 book.getIsbn(), book.getPrice(),
@@ -75,8 +76,8 @@ class BookServiceImplTest {
         book.setIsbn("9781234567890");
         book.setPrice(new BigDecimal("100"));
 
-        BookToDtoWithoutCategoryIds bookDto = new BookToDtoWithoutCategoryIds(book.getId(), book.getTitle(), book.getAuthor(),
-                book.getIsbn(), book.getPrice(),
+        BookToDtoWithoutCategoryIds bookDto = new BookToDtoWithoutCategoryIds(book.getId(),
+                book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPrice(),
                 book.getDescription(), book.getCoverImage());
 
         Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
@@ -191,22 +192,24 @@ class BookServiceImplTest {
         List<Book> books = List.of(book, secondBook, thirdBook);
         Page<Book> bookPage = new PageImpl<>(books, pageable, books.size());
 
-        BookToDtoWithoutCategoryIds bookDto = new BookToDtoWithoutCategoryIds(book.getId(), book.getTitle(), book.getAuthor(),
-                book.getIsbn(), book.getPrice(),
+        BookToDtoWithoutCategoryIds bookDto = new BookToDtoWithoutCategoryIds(book.getId(),
+                book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPrice(),
                 book.getDescription(), book.getCoverImage());
-        BookToDtoWithoutCategoryIds secondBookDto = new BookToDtoWithoutCategoryIds(secondBook.getId(), secondBook.getTitle(),
-                secondBook.getAuthor(), secondBook.getIsbn(), secondBook.getPrice(),
-                secondBook.getDescription(), secondBook.getCoverImage());
-        BookToDtoWithoutCategoryIds thirdBookDto = new BookToDtoWithoutCategoryIds(thirdBook.getId(), thirdBook.getTitle(),
-                thirdBook.getAuthor(), thirdBook.getIsbn(), thirdBook.getPrice(),
-                thirdBook.getDescription(), thirdBook.getCoverImage());
-        List<BookToDtoWithoutCategoryIds> expected = List.of(bookDto, secondBookDto, thirdBookDto);
+        BookToDtoWithoutCategoryIds secondBookDto = new BookToDtoWithoutCategoryIds(
+                secondBook.getId(), secondBook.getTitle(), secondBook.getAuthor(),
+                secondBook.getIsbn(), secondBook.getPrice(), secondBook.getDescription(),
+                secondBook.getCoverImage());
+        BookToDtoWithoutCategoryIds thirdBookDto = new BookToDtoWithoutCategoryIds(
+                thirdBook.getId(), thirdBook.getTitle(), thirdBook.getAuthor(),
+                thirdBook.getIsbn(), thirdBook.getPrice(), thirdBook.getDescription(),
+                thirdBook.getCoverImage());
 
         Mockito.when(bookRepository.findAll(pageable)).thenReturn(bookPage);
         Mockito.when(bookMapper.toBookWithoutCategoryIds(book)).thenReturn(bookDto);
         Mockito.when(bookMapper.toBookWithoutCategoryIds(secondBook)).thenReturn(secondBookDto);
         Mockito.when(bookMapper.toBookWithoutCategoryIds(thirdBook)).thenReturn(thirdBookDto);
 
+        List<BookToDtoWithoutCategoryIds> expected = List.of(bookDto, secondBookDto, thirdBookDto);
         List<BookToDtoWithoutCategoryIds> actual = bookService.getAll(pageable);
         Assertions.assertEquals(actual, expected);
     }
@@ -268,7 +271,7 @@ class BookServiceImplTest {
         Long categoryId = 1L;
         Category category = new Category();
         category.setId(categoryId);
-        Set<Category> categories = Set.of(category);
+
         Long bookId = 1L;
         Book book = new Book();
         book.setId(bookId);
@@ -276,7 +279,7 @@ class BookServiceImplTest {
         book.setAuthor("A first author");
         book.setIsbn("9781234567890");
         book.setPrice(new BigDecimal("100"));
-        book.setCategories(categories);
+        book.setCategories(Set.of(category));
 
         Long secondBookId = 2L;
         Book secondBook = new Book();
@@ -285,8 +288,10 @@ class BookServiceImplTest {
         secondBook.setAuthor("A second author");
         secondBook.setIsbn("9781234567891");
         secondBook.setPrice(new BigDecimal("110"));
-        secondBook.setCategories(categories);
+        secondBook.setCategories(Set.of(category));
+
         List<Book> books = List.of(book, secondBook);
+        Pageable pageable = PageRequest.of(0, 10);
 
         BookDto bookDto = new BookDto(book.getId(), book.getTitle(), book.getAuthor(),
                 book.getIsbn(), book.getPrice(),
@@ -295,12 +300,12 @@ class BookServiceImplTest {
                 secondBook.getAuthor(), secondBook.getIsbn(), secondBook.getPrice(),
                 secondBook.getDescription(), secondBook.getCoverImage(), Set.of(1L));
 
-        Mockito.when(bookRepository.findAllByCategoriesId(categoryId)).thenReturn(books);
+        Mockito.when(bookRepository.findAllByCategoriesId(categoryId, pageable)).thenReturn(books);
         Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
         Mockito.when(bookMapper.toDto(secondBook)).thenReturn(secondBookDto);
 
         List<BookDto> expected = List.of(bookDto, secondBookDto);
-        List<BookDto> actual = bookService.getAllBooksByCategory(categoryId);
+        List<BookDto> actual = bookService.getAllBooksByCategory(categoryId, pageable);
         Assertions.assertEquals(expected, actual);
     }
 }

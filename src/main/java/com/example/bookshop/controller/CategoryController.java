@@ -82,7 +82,7 @@ public class CategoryController {
     @Operation(summary = "get all books by category",
             description = "getting all books by specific category")
     @GetMapping("/{id}/books")
-    public List<BookDto> getAllBooksByCategory(@PathVariable @Positive Long id) {
-        return bookService.getAllBooksByCategory(id);
+    public List<BookDto> getAllBooksByCategory(@PathVariable @Positive Long id, Pageable pageable) {
+        return bookService.getAllBooksByCategory(id, pageable);
     }
 }
