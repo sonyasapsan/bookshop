@@ -10,12 +10,12 @@ The system contains two roles - user role and admin role. The user has the abili
 ## Technologies used in the project
 <p align="left">
     <img width="25" src="https://upload.wikimedia.org/wikipedia/uk/8/85/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_Java.png" alt="Java Logo">
-    Java
+    Java 17
 </p>
 
 <p align="left">
     <img width="25" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwsq-7f5BWyog4cdeT1sQaYLVzhJ0o37Up8TjHvVU08WUgfyyMMRMHTVwJ5XReSjyhZa0&usqp=CAU" alt="Spring logo">
-    Spring
+    Spring 3.1.4
 </p>
 
 <p align="left">
@@ -35,27 +35,27 @@ The system contains two roles - user role and admin role. The user has the abili
 
 <p align="left">
     <img width="25" src="https://blog.kakaocdn.net/dn/bA0QdM/btqQCzxS7vv/RTB3bbZsu7EMKPBefuTn80/img.jpg" alt="Lombok logo">
-    Lombok
+    Lombok 1.18.30
 </p>
 
 <p align="left">
     <img width="25" src="https://dashboard.snapcraft.io/site_media/appmedia/2020/08/liquibase.jpeg.png" alt="Liquibase logo">
-    Liquibase
+    Liquibase 4.20.0
 </p>
 
 <p align="left">
     <img width="25" src="https://logowik.com/content/uploads/images/mysql8604.logowik.com.webp" alt="MySql logo">
-    MySql 
+    MySql 8.0.33
 </p>
 
 <p align="left">
      <img width="25" src="https://mapstruct.github.io/mapstruct.org.new/images/favicon.ico" alt="Mapstruct logo">
-    Mapstruct
+    Mapstruct 1.5.5.Final
 </p>
 
 <p align="left">
      <img width="25" src="https://seeklogo.com/images/S/swagger-logo-A49F73BAF4-seeklogo.com.png" alt="Swagger logo">
-    Swagger ui
+    Swagger ui 3.0.0
 </p>
 
 ### Available endpoints
