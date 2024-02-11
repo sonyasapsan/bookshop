@@ -3,7 +3,7 @@ package com.example.bookshop.config;
 import org.testcontainers.containers.MySQLContainer;
 
 public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
-    private static final String DB_IMAGE = "mysql:8";
+    private static final String DB_IMAGE = "mysql:8.0.33";
 
     private static CustomMySqlContainer mySqlContainer;
 
@@ -21,9 +21,6 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     @Override
     public void start() {
         super.start();
-        System.out.println("MySQL Container URL: " + mySqlContainer.getJdbcUrl());
-        System.out.println("MySQL Container Username: " + mySqlContainer.getUsername());
-        System.out.println("MySQL Container Password: " + mySqlContainer.getPassword());
         System.setProperty("TEST_DB_URL", mySqlContainer.getJdbcUrl());
         System.setProperty("TEST_DB_USERNAME", mySqlContainer.getUsername());
         System.setProperty("TEST_DB_PASSWORD", mySqlContainer.getPassword());

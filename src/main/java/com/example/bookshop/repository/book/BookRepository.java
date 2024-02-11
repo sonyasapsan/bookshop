@@ -14,6 +14,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Query("SELECT b FROM Book b WHERE b.author = :author")
     List<Book> findAllByAuthor(@Param("author") String author, Pageable pageable);
 
-    @Query("SELECT DISTINCT b FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
+    @Query("SELECT b FROM Book b JOIN b.categories c WHERE c.id = :categoryId")
     List<Book> findAllByCategoriesId(@Param("categoryId") Long categoryId, Pageable pageable);
 }

@@ -13,7 +13,6 @@ import com.example.bookshop.dto.book.CreateBookRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -35,8 +33,6 @@ import org.springframework.web.context.WebApplicationContext;
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:database/category/book/delete-from-books.sql",
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@ImportResource({"classpath*:src/test/resources/application.properties"})
-@RequiredArgsConstructor
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BookControllerTest {
     private static MockMvc mockMvc;
@@ -166,6 +162,7 @@ class BookControllerTest {
     public void delete_validCase_returnStatus204() throws Exception {
         Long bookId = 1L;
         MvcResult result = mockMvc.perform(delete("/books/" + bookId))
+                .andExpect(status().isNoContent())
                 .andReturn();
         Assertions.assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }

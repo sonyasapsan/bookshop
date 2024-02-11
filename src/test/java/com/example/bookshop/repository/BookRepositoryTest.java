@@ -16,19 +16,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
+@Sql(scripts = "classpath:database/category/book/insert-books.sql",
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:database/category/book/delete-from-books.sql",
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
-    @Sql(scripts = "classpath:database/category/book/insert-books.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:database/category/book/delete-from-books.sql",
-            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
     @DisplayName("Find all by the certain author")
-    public void findAllByAuthor_validCade_returnBookList() {
+    public void findAllByAuthor_validCase_returnBookList() {
         String author = "An author";
         Book book = new Book();
         book.setId(1);
