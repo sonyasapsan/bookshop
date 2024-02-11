@@ -2,11 +2,11 @@
 Book management system
 </h1>
 <p align="center">
-    <img width="500" src="https://www.libraryvision.org/wp-content/uploads/2022/06/Book-scanning-software-featured.png" alt="Book shop">
+    <img width="500" src="https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books_23-2149342941.jpg" alt="Book shop">
   
 ## Intro
-The objective of this project is to offer users a convenient solution in the realm of book sales. The project enables clients to swiftly peruse available books, 
-add them to the shopping cart and make orders.
+The objective of this project is to offer users a convenient solution in the realm of book sales. 
+The system contains two roles - user role and admin role. The user has the ability to manipulate the shopping cart by adding or removing items. Additionally, she/he can search for books based on various parameters, including filtering by categories or authors. On the other hand, the admin is able to add, modify, or delete books or categories. The project includes Spring Security, and most of the methods for categories and books are covered by tests (including controllers, services, and repositories).
 ## Technologies used in the project
 <p align="left">
     <img width="25" src="https://upload.wikimedia.org/wikipedia/uk/8/85/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF_Java.png" alt="Java Logo">
