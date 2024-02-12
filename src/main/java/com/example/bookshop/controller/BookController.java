@@ -37,7 +37,7 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @Operation(summary = "find all books where authors with certain name",
                 description = "find all books by authors")
-    @GetMapping("/{author}")
+    @GetMapping("/author/{author}")
     public List<BookDto> findAllByAuthor(@PathVariable String author,
                                          @PageableDefault Pageable pageable) {
         return bookService.findAllByAuthor(author, pageable);
